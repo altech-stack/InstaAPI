@@ -6,9 +6,6 @@ This project demonstrates the tool used to parse out user's saved_media variable
 ![Alt text](assets/gif_demo.gif?raw=true "Title")
 
 
-## Getting Started
-
-To use this tool, you just need 
 ### Prerequisites
 
 To install dependencies, you just need to perform the following.
