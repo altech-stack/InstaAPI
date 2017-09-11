@@ -2,6 +2,11 @@
 # InstaAPI saved_media demonstration
 
 This project demonstrates the tool used to parse out user's saved_media variable in their instagram profile. This tool also works on users who's profile are private.
+
+![Alt text](assets/gif_demo.gif?raw=true "Title")
+![Alt Text](https://github.com/AndrewLien/InstaAPI/blob/master/assets/gif_demo.gif)
+
+
 ## Getting Started
 
 To use this tool, you just need 
