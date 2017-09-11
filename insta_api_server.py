@@ -1,10 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request, jsonify, make_response,render_template
 from pymongo import MongoClient
 from flask_cors import CORS, cross_origin
 import datetime
 import json
 import requests
-
+from forms import ContactForm
+from copy import deepcopy
+import time
 class API():
     @staticmethod
     def find_between(s, first, last):
@@ -25,6 +29,8 @@ class API():
             print "Error with GET Request"
 
         return page.content
+
+
 
     @staticmethod
     def get_json_from_source(text):
@@ -90,14 +96,52 @@ class API():
     @staticmethod
     @app.route("/")
     def template_test():
-        return render_template('template.html', my_string="Wheeeee!",
-                               my_list=[0, 1, 2, 3, 4, 5], title="Index", current_time=datetime.datetime.now())
+        form = ContactForm()
 
+        return render_template('layout.html', my_string="Wheeeee!",
+                               my_list=[0, 1, 2, 3, 4, 5], title="Index", current_time=datetime.datetime.now(),form=form)
+
+    @staticmethod
+    @app.route('/instapi', methods=['GET', 'POST'])
+    def instapi():
+        try:
+            if request.method == 'POST':
+                insta_user = request.form.get('name')
+                insta_json = json.loads(API.get_instapi(insta_user).data)
+
+                insta_arr = insta_json.get('result').get('saved_media').get('nodes')
+                insta_code = "https://www.instagram.com/p/"
+                insta_doc = {
+                    "comments_count":0,
+                    "likes_count":0,
+                    "photo_image":"",
+                    "date":"",
+                    "link":"",
+                    "caption":""
+                }
+                insta_send = []
+                for element in insta_arr:
+                    tmp = deepcopy(insta_doc)
+                    tmp['comments_count'] = element.get('comments').get('count')
+                    tmp['likes_count'] = element.get('likes').get('count')
+                    tmp['photo_image'] = element.get('display_src')
+                    tmp['date'] = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(element.get('date')))
+                    tmp['link'] = insta_code+element.get('code')
+                    tmp['caption'] = element.get('caption')
+                    insta_send.append(tmp)
+
+                insta_data = insta_send
+
+                return render_template('instapi.html',mystring="whee", insta_data=insta_data)
+        except:
+            return "Error trying to parse user. Either they do not exist or my code doesn't cover this edge case. ¯\_(ツ)_/¯ "
     @staticmethod
     @app.route("/home")
     def home():
+        form = ContactForm()
+        print form
         return render_template('template.html', my_string="Foo",
-                               my_list=[6, 7, 8, 9, 10, 11], title="Home", current_time=datetime.datetime.now())
+                               my_list=[6, 7, 8, 9, 10, 11], title="Home", current_time=datetime.datetime.now(),form=form)
 
     @staticmethod
     @app.route("/about")
