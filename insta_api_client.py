@@ -33,7 +33,7 @@ def test_getter(j_id):
     return response.content
 
 def main():
-    job_id = test_instapi_api(str('shannoncakes_'))
+    job_id = test_instapi_api(str('insta_username'))
     print job_id
 
 
