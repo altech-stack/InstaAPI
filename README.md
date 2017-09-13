@@ -1,3 +1,6 @@
+# NOTE: AS OF 9/12/2017 THERE ARE NO MORE SAVED_MEDIA INFORMATION. Looks like they patched it! This repo will still be up, but a warning to others that you won't see any output anymore.
+
+
 
 # InstaAPI saved_media demonstration
 
